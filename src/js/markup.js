@@ -1,5 +1,8 @@
 import getRefs from './refs';
 
+import SimpleLightbox from 'simplelightbox';
+import '../../node_modules/simplelightbox/dist/simple-lightbox.min.css';
+
 const refs = getRefs();
 
 const columnNumber = 4;
@@ -55,22 +58,29 @@ function showButton() {
 
 function markupGalleryCard(element) {
   return `<div class="photo-card">
-        <img src="${element['webformatURL']}" alt="${element['tags']}" width="100%" loading="lazy" />
-        <div class="info">
-            <p class="info-item">
-                <b>Likes</b>${element['likes']}
-            </p>
-            <p class="info-item">
-                <b>Views</b>${element['views']}
-            </p>
-            <p class="info-item">
-                <b>Comments</b>${element['comments']}
-            </p>
-            <p class="info-item">
-                <b>Downloads</b>${element['downloads']}
-            </p>
-        </div>
-    </div>`;
+            <a class="photo-link" href="${element['largeImageURL']}">
+              <img
+                src="${element['webformatURL']}"
+                alt="${element['tags']}"
+                width="100%"
+                loading="lazy"
+              />
+              <div class="info">
+                <p class="info-item">
+                  <b>Likes</b>${element['likes']}
+                </p>
+                <p class="info-item">
+                  <b>Views</b>${element['views']}
+                </p>
+                <p class="info-item">
+                  <b>Comments</b>${element['comments']}
+                </p>
+                <p class="info-item">
+                  <b>Downloads</b>${element['downloads']}
+                </p>
+              </div>
+            </a>
+          </div>`;
 }
 
 function insertGalleryCard(hit) {
@@ -90,9 +100,12 @@ function prepareCardStyles(card) {
   card.style.boxShadow =
     '0px 2px 1px 0px rgba(46, 47, 66, 0.08),0px 1px 1px 0px rgba(46, 47, 66, 0.16),0px 1px 6px 0px rgba(46, 47, 66, 0.08)';
   card.style.borderRadius = '0 0 5px 5px';
+  const photoLink = card.querySelector('.photo-link');
   const infoContainer = card.querySelector('.info');
   const infoItems = card.querySelectorAll('.info-item');
   // console.log(infoItems); // debugging
+  photoLink.style.textDecoration = 'none';
+  photoLink.style.color = 'inherit';
   infoContainer.style.display = 'flex';
   infoContainer.style.justifyContent = 'space-around';
   infoContainer.style.padding = '10px';
@@ -107,6 +120,7 @@ function renderGalleryCards(pictures) {
   pictures.hits.forEach(insertGalleryCard);
   const imageCards = Array.from(refs.galleryWrapper.children);
   imageCards.forEach(prepareCardStyles);
+  new SimpleLightbox('.gallery a');
 }
 
 function cleanGallery() {
