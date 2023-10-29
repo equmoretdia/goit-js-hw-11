@@ -92,7 +92,7 @@ function prepareCardStyles(card) {
   card.style.borderRadius = '0 0 5px 5px';
   const infoContainer = card.querySelector('.info');
   const infoItems = card.querySelectorAll('.info-item');
-  // console.log(infoItems);
+  // console.log(infoItems); // debugging
   infoContainer.style.display = 'flex';
   infoContainer.style.justifyContent = 'space-around';
   infoContainer.style.padding = '10px';
