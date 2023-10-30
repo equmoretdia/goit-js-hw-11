@@ -10,6 +10,16 @@ markup.preparePageStyles();
 
 let searchMatches = 0;
 
+function scrollSmoothly() {
+  const { height: cardHeight } =
+    refs.galleryWrapper.firstElementChild.getBoundingClientRect();
+
+  window.scrollBy({
+    top: cardHeight * 2,
+    behavior: 'smooth',
+  });
+}
+
 function createGallery(pictures) {
   if (pictures.hits.length > 0) {
     if (api.search.page === 1) {
@@ -18,6 +28,7 @@ function createGallery(pictures) {
       console.log(`page number ${api.search.page} is loaded`);
     }
     markup.renderGalleryCards(pictures);
+    scrollSmoothly();
     searchMatches += pictures.hits.length;
     console.log(
       `${searchMatches} photos are delivered out of ${pictures.totalHits} allowed per one query.`
